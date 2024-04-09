@@ -21,12 +21,12 @@ public:
     AVLTree() : Root(nullptr){}
     //获取节点高度
     int Height(TreeNode *node)
-    {
+    { //为什么空的节点高度为-1; A:因为叶子节点的高度为0，叶子节点的子节点为空节点，所以为-1
         return node == nullptr ? -1 : node ->Hei;
     }
     //更新节点高度
     void UpdateHeight(TreeNode *node)
-    {   //相当于递归，要知道node的Hei,需要知道node的子节点的高度，以此类推直到叶子节点的Hei = 0；
+    {   //相当于递归，要知道node的Hei,需要知道node的子节点的高度，以此类推直到叶子节点的Hei = 0；所以每次新添加一个节点必须要时刻更新节点高度
         if(node != nullptr)
         {
             node ->Hei = max(Height(node ->Left), Height(node ->Right)) + 1;//叶子节点的Hei = -1 + 1 = 0
@@ -132,7 +132,7 @@ public:
     }
     void InsertNode(int val)
     {
-        Root = InsertNodeHelper(Root,val);
+        Root = InsertNodeHelper(Root,val);//从Root开始执行迭代插入，然后自底向上不断更新节点高度
     }
     TreeNode *RemoveNodeHelper(TreeNode* node, int val)
     {
@@ -145,18 +145,19 @@ public:
             node ->Right = RemoveNodeHelper(node ->Right, val);//node就是我们要删除节点的父节点
         }
         else if(val < node ->Val)
-        {
+        { //第一个node->Left是表明父节点node的指向，函数RemoveNodeHelper(node ->Left, val)里的node->Left是传入的子节点
+         //子节点执行若干操作后返回
             node ->Left = RemoveNodeHelper(node ->Left, val);
         }
-        else
+        else//相等说明找到了节点，执行删除操作
         {
-            if(node ->Left == nullptr || node ->Right ==nullptr)
+            if(node ->Left == nullptr || node ->Right ==nullptr)//度为1或0
             {
                 TreeNode *child = node ->Left == nullptr ? node ->Right : node ->Left;
                 if(child == nullptr)//叶子节点
                 {
                     delete node;//直接删除就行
-                    return nullptr;
+                    return nullptr;//返回空因为这一层找到了删除的节点，删除后父节点的指向要重置为空才算完整删除
                 }
                 else//度为1的节点
                 {
@@ -165,23 +166,23 @@ public:
                     //因为这删除的是指针指向的区域，会导致node，child都失效
                 }
             }
-            else
+            else//删除度为2的节点,必须要重新找到一个新的根节点代替这个待删除的节点
             {
-                TreeNode *tmp = node ->Right;
+                TreeNode *tmp = node ->Right;//找右子树的最左边的节点作为新的根节点
                 
-                while (tmp ->Left)
+                while (tmp ->Left)//若为tmp,则tmp为空时就跳出循环，此时tmp没任何用，需要的时tmp的父节点
                 {
                     tmp = tmp ->Left;
                 }
                 int tmp_val = tmp ->Val;
-                node ->Val = tmp_val;
+                node ->Val = tmp_val;//和二叉搜索树一样
                 RemoveNodeHelper(tmp,val);
                 
             }
         }
-        UpdateHeight(node);
-        node = Rotate(node);
-        return node;
+        UpdateHeight(node);//每一层都需要更新一次节点高度
+        node = Rotate(node);//自底向上执行旋转操作
+        return node;//返回到上一层继续执行更新节点高度，判断是否需要旋转
     }
     void RemoveNode(int val)
     {
