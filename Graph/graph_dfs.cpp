@@ -3,7 +3,7 @@
 //深度优先遍历辅助函数
 void dfs(GraphAdjList &graph_adj_list, unordered_set<Vertex *> &visited, 
             vector<Vertex *> &ret, Vertex *startVet)
-    {
+    {//要递归的函数不宜在函数内创建额外的变量，因为每一次迭代，都要创建额外的空间存储这些变量且不好释放内存，所以变量尽可能使用传参
         ret.push_back(startVet);
         visited.emplace(startVet);
         for(auto &adj : graph_adj_list.AdjList[startVet])
