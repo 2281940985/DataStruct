@@ -17,7 +17,8 @@ int main()
     graph.Print();
     //添加顶点
     cout << "Add new vertex 6:" << endl;
-    v.push_back(new Vertex(6));
+    v.push_back(new Vertex(6));//在图中添加顶点
+    graph.AddVertex(v[5]);//在邻接表中添加顶点
     graph.AddEdge(v[0],v[5]);
     graph.Print();
     //释放内存

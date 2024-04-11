@@ -23,6 +23,7 @@ vector<Vertex *> GraphBfs(GraphAdjList &graph_adj_list, Vertex *startVet)
             }
         }
     }
+    return ret;
 
 }
 int main()
