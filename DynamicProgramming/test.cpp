@@ -32,7 +32,7 @@ int coinChange(vector<int>& coins, int amount) {
 
 int main() {
     vector<int> coins = {1, 2, 5};
-    int amount = 5;
+    int amount = 4;
     int minCoins = coinChange(coins, amount);
     cout << "Minimum number of coins needed: " << minCoins << endl;
     return 0;
