@@ -3,26 +3,37 @@
 #include<vector>
 #include<algorithm>
 using namespace std;
+/*
+ÊäÈëÁ½¸ö×Ö·û´® ? ºÍ ? £¬·µ»Ø½« ? ×ª»»Îª ? ËùÐèµÄ×îÉÙ±à¼­²½Êý¡£
+Äã¿ÉÒÔÔÚÒ»¸ö×Ö·û´®ÖÐ½øÐÐÈýÖÖ±à¼­²Ù×÷£º²åÈëÒ»¸ö×Ö·û¡¢É¾³ýÒ»¸ö×Ö·û¡¢½«×Ö·ûÌæ»»ÎªÈÎÒâ
+Ò»¸ö×Ö·û¡£
+*/
+/*
+×´Ì¬ [?, ?] ¶ÔÓ¦µÄ×ÓÎÊÌâ£º½« ? µÄÇ° ? ¸ö×Ö·û¸ü¸ÄÎª ? µÄÇ° ? ¸ö×Ö·ûËùÐèµÄ×îÉÙ±à¼­²½Êý
+1. ÔÚ ?[? ? 1] Ö®ºóÌí¼Ó ?[? ? 1] £¬ÔòÊ£Óà×ÓÎÊÌâ ??[?, ? ? 1] ¡£
+2. É¾³ý ?[? ? 1] £¬ÔòÊ£Óà×ÓÎÊÌâ ??[? ? 1, ?] ¡£
+3. ½« ?[? ? 1] Ìæ»»Îª ?[? ? 1] £¬ÔòÊ£Óà×ÓÎÊÌâ ??[? ? 1, ? ? 1] ¡£
 
+*/
 int EditDistanceDP(string s, string t)
 {
     vector<vector<int>> dp(s.length()+1, vector<int>(t.length()+1, 0));
-    //åˆå§‹åŒ–é¦–åˆ—
+    //³õÊ¼»¯Ê×ÁÐ
     for(int i=1; i<=s.length(); i++)
     {
         dp[i][0] = i;
     }
-    //åˆå§‹åŒ–é¦–è¡Œ
+    //³õÊ¼»¯Ê×ÐÐ
     for(int i=1; i<=t.length(); i++)
     {
         dp[0][i] = i;
     }
-    //çŠ¶æ€è½¬ç§»ï¼Œå…¶ä½™è¡Œå’Œåˆ—
+    //×´Ì¬×ªÒÆ£¬ÆäÓàÐÐºÍÁÐ
     for(int i = 1; i <= s.length(); i++)
     {
         for(int j = 1; j <= t.length(); j++)
         {
-            if(s[i-1] == t[j-1])
+            if(s[i-1] == t[j-1])//Î²×ÖÄ¸ÏàÍ¬£¬²»ÐèÒªÖ´ÐÐ²Ù×÷£¬Ö±½ÓÅÐ¶ÏÇ°Ãæ×ÖÄ¸
             {
                 dp[i][j] = dp[i-1][j-1];
             }
